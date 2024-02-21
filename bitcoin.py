@@ -4,6 +4,8 @@ import base58
 import requests
 import sqlite3
 from multiprocessing import Process
+import time
+
 
 def generate_wallet():
     private_key = os.urandom(32)
@@ -20,7 +22,11 @@ def check_balance(bitcoin_address):
         return data['confirmed'] / 100000000
     except requests.exceptions.RequestException as e:
         print(f"Error checking balance for {bitcoin_address}: {e}")
+    
+    time.sleep(1)
+    
     return None
+
 
 def save_wallet_to_database(address, private_key, balance):
     conn = sqlite3.connect('wallets.db')
